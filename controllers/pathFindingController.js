@@ -1,11 +1,22 @@
-// Import pathfinding algorithms
+// Import necessary modules and pathfinding algorithms
+const express = require("express");
 const bfs = require("../algorithms/bfs");
 const dfs = require("../algorithms/dfs");
 const dijkstra = require("../algorithms/dijkstra");
 const aStar = require("../algorithms/a_star");
 const Graph = require("../utils/graph");
+const cors = require("cors");
 
-// Existing function to run a single algorithm
+const app = express();
+const port = 5000;
+
+// Middleware to enable CORS
+app.use(cors()); // Allows all origins by default
+
+// Middleware to parse JSON request body
+app.use(express.json());
+
+// Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
   const graph = new Graph(gridSize.rows, gridSize.cols);
   graph.setStartNode(start.row, start.col);
@@ -26,7 +37,7 @@ function findPath(algorithm, gridSize, start, end, obstacles) {
     case "dijkstra":
       path = dijkstra(graph, start.row, start.col, end.row, end.col);
       break;
-    case "a*":
+    case "a_star":
       path = aStar(graph, start.row, start.col, end.row, end.col);
       break;
     default:
@@ -36,7 +47,18 @@ function findPath(algorithm, gridSize, start, end, obstacles) {
   return path;
 }
 
-// New function to test all algorithms
+// Endpoint to handle frontend requests for pathfinding
+app.post("/find-path", (req, res) => {
+  try {
+    const { algorithm, gridSize, start, end, obstacles } = req.body;
+    const path = findPath(algorithm, gridSize, start, end, obstacles);
+    res.json({ path });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Function to test all algorithms and log paths (for testing/debugging purposes)
 function testAllAlgorithms(gridSize, start, end, obstacles) {
   const algorithms = {
     bfs,
@@ -67,7 +89,7 @@ function testAllAlgorithms(gridSize, start, end, obstacles) {
   });
 }
 
-// Test parameters
+// Test parameters for debugging purposes
 const start = { row: 0, col: 0 };
 const end = { row: 4, col: 4 };
 const obstacles = [
@@ -77,7 +99,12 @@ const obstacles = [
 ];
 const gridSize = { rows: 5, cols: 5 };
 
-// Run the test function
-testAllAlgorithms(gridSize, start, end, obstacles);
+// Run the test function (uncomment to run all algorithms in the console)
+// testAllAlgorithms(gridSize, start, end, obstacles);
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Pathfinding API running at http://localhost:${port}`);
+});
 
 module.exports = { findPath, testAllAlgorithms };
