@@ -27,7 +27,13 @@ app.use(
 app.use(express.json());
 
 // Enable CORS for the find-path endpoint
-app.options("/find-path", cors());
+// Your endpoints here
+app.post("/find-path", (req, res) => {
+  // Process the request and send a response
+  res.json({ message: "Path found!" });
+});
+
+app.options("/find-path", cors()); // Enable preflight for the route
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
