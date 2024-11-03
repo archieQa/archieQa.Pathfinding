@@ -16,7 +16,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://archie-qa-pathfinding-fe.vercel.app",
-    ], // add your frontend URL here
+    ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
@@ -26,14 +26,19 @@ app.use(
 // Middleware to parse JSON request body
 app.use(express.json());
 
-// Enable CORS for the find-path endpoint
-// Your endpoints here
-app.post("/find-path", (req, res) => {
-  // Process the request and send a response
-  res.json({ message: "Path found!" });
-});
-
-app.options("/find-path", cors()); // Enable preflight for the route
+// Handle preflight requests for /find-path explicitly
+app.options(
+  "/find-path",
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://archie-qa-pathfinding-fe.vercel.app",
+    ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
+  })
+);
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
