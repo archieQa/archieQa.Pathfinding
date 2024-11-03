@@ -15,15 +15,19 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://archie-qa-pathfinding-be.vercel.app",
-    ], // Allow localhost for development and Vercel URL for production
-    methods: ["GET", "POST"], // Add allowed methods
-    allowedHeaders: ["Content-Type"], // Add allowed headers
+      "https://archie-qa-pathfinding-fe.vercel.app",
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true, // Allow credentials if needed
   })
 );
 
 // Middleware to parse JSON request body
 app.use(express.json());
+
+// Enable CORS for the find-path endpoint
+app.options("/find-path", cors());
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
