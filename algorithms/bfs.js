@@ -1,4 +1,4 @@
-const Graph = require("./graph");
+const Graph = require("../utils/graph");
 
 // Function to find the shortest path using Breadth First Search
 
