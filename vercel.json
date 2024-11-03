@@ -10,7 +10,7 @@
               },
               {
                   "key": "Access-Control-Allow-Origin",
-                  "value": "https://archie-qa-pathfinding-fe.vercel.app/" 
+                  "value": "https://archie-qa-pathfinding-fe.vercel.app" 
               },
               {
                   "key": "Access-Control-Allow-Methods",
