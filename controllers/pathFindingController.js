@@ -11,7 +11,16 @@ const app = express();
 const port = 5000;
 
 // Middleware to enable CORS
-app.use(cors()); // Allows all origins by default
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://archie-qa-pathfinding-be.vercel.app",
+    ], // Allow localhost for development and Vercel URL for production
+    methods: ["GET", "POST"], // Add allowed methods
+    allowedHeaders: ["Content-Type"], // Add allowed headers
+  })
+);
 
 // Middleware to parse JSON request body
 app.use(express.json());
