@@ -13,13 +13,9 @@ const port = 5000;
 // Middleware to enable CORS
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://archie-qa-pathfinding-fe.vercel.app",
-    ],
-    methods: ["GET", "POST"],
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
-    credentials: true, // Allow credentials if needed
   })
 );
 
