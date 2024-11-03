@@ -26,7 +26,7 @@ function dijkstra(graph, startRow, startCol, endRow, endCol) {
 
     const neighbors = graph.getNeighbors(currentNode);
     for (const neighbor of neighbors) {
-      const newDistrance = currentNode.distance + 1; // Calculate distance to neiggbor node
+      const newDistance = currentNode.distance + 1; // Calculate distance to neiggbor node
       if (newDistance < neighbor.distance) {
         neighbor.distance = newDistance; // Update the distance to the neighbor node
         neighbor.previousNode = currentNode; // Update the previous node to the neighbor node

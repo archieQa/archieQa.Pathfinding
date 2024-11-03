@@ -32,13 +32,12 @@ class Graph {
 
   // Function to mark a specific node as the starting point
   setStartNode(row, col) {
-    this.clearStartAndEnd(); // Clear any existing start or end points
-    this.grid[row][col].isStart = true; // Mark the selected node as the start point
+    this.grid[row][col].isStart = true; // Set start flag
+    this.grid[row][col].distance = 0; // Initialize distance to 0 for the start node
   }
 
   // Function to mark a specific node as the ending point
   setEndNode(row, col) {
-    this.clearStartAndEnd(); // Clear any existing start or end points
     this.grid[row][col].isEnd = true; // Mark the selected node as the end point
   }
 
@@ -73,7 +72,7 @@ class Graph {
     // Check the cell to the right if it exists
     if (col < this.cols - 1) neighbors.push(this.grid[row][col + 1]); // Add the cell to the right to the neighbors array
 
-    return neighbors.fileter((neighbors) => !neighbors.isObstacle); // Return only neighbors that are not obstacles
+    return neighbors.filter((neighbor) => !neighbor.isObstacle); // Return only neighbors that are not obstacles
   }
 }
 

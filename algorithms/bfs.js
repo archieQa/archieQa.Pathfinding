@@ -15,7 +15,7 @@ function bfs(graph, startRow, startCol, endRow, endCol) {
 
     if (currentNode === endNode) {
       // Check if we reached the end node
-      return reconstuctPath(endNode); // if yes, return the path
+      return reconstructPath(endNode);
     }
 
     const neighbors = graph.getNeighbors(currentNode); // Get the neighbors of the current node
@@ -32,9 +32,9 @@ function bfs(graph, startRow, startCol, endRow, endCol) {
   return null; // Return null if there is no path
 }
 
-// Function to reconstruct the path by follwing the previous nodes from the end node to the start node
+// Function to the path by follwing the previous nodes from the end node to the start node
 
-function reconstuctPath(endNode) {
+function reconstructPath(endNode) {
   const path = []; // Create an array to store the path
   let currentNode = endNode; // Start from the end node
 
