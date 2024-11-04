@@ -10,7 +10,7 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 
-// Middleware to enable CORS globally for your allowed origins
+// Middleware to enable CORS globally for allowed origins
 app.use(
   cors({
     origin: [
@@ -25,31 +25,6 @@ app.use(
 
 // Middleware to parse JSON request body
 app.use(express.json());
-
-// Handle preflight requests for /find-path explicitly
-app.options(
-  "/find-path",
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://archie-qa-pathfinding-fe.vercel.app",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true,
-  })
-);
-
-// Your /find-path route handler
-app.post("/find-path", (req, res) => {
-  try {
-    const { algorithm, gridSize, start, end, obstacles } = req.body;
-    // Perform your pathfinding algorithm here (e.g., call findPath function)
-    const path = []; // Replace with actual pathfinding function result
-    res.json({ path });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
@@ -134,7 +109,7 @@ const obstacles = [
 ];
 const gridSize = { rows: 5, cols: 5 };
 
-// Run the test function (uncomment to run all algorithms in the console)
+// Uncomment to test all algorithms in the console
 // testAllAlgorithms(gridSize, start, end, obstacles);
 
 // Start the server
