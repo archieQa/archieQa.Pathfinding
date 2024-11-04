@@ -10,7 +10,7 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 
-// Middleware to enable CORS
+// Middleware to enable CORS globally for your allowed origins
 app.use(
   cors({
     origin: [
@@ -39,6 +39,17 @@ app.options(
     credentials: true,
   })
 );
+
+// Your /find-path route handler
+app.post("/find-path", (req, res) => {
+  try {
+    const { algorithm, gridSize, start, end, obstacles } = req.body;
+    // Perform your pathfinding algorithm here (e.g., call findPath function)
+    const path = []; // Replace with actual pathfinding function result
+    res.json({ path });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
