@@ -23,6 +23,8 @@ app.use(
   })
 );
 
+app.options("*", cors()); // Enable preflight requests for all routes
+
 // Middleware to parse JSON request body
 app.use(express.json());
 
