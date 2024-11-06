@@ -10,21 +10,29 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 
-// Middleware to enable CORS globally for allowed origins
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://archie-qa-pathfinding-fe.vercel.app",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true,
-  })
-);
+// CORS configuration
+const corsOptions = {
+  origin: "https://archie-qa-pathfinding-fe.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
-app.options("*", cors()); // Enable preflight requests for all routes
+app.use(cors(corsOptions));
 
+app.options("*", cors(corsOptions));
+
+// Endpoint to handle frontend requests for pathfinding
+app.post("/find-path", (req, res) => {
+  try {
+    const { algorithm, gridSize, start, end, obstacles } = req.body;
+    const path = findPath(algorithm, gridSize, start, end, obstacles);
+    res.json({ path });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 // Middleware to parse JSON request body
 app.use(express.json());
 
@@ -58,17 +66,6 @@ function findPath(algorithm, gridSize, start, end, obstacles) {
 
   return path;
 }
-
-// Endpoint to handle frontend requests for pathfinding
-app.post("/find-path", (req, res) => {
-  try {
-    const { algorithm, gridSize, start, end, obstacles } = req.body;
-    const path = findPath(algorithm, gridSize, start, end, obstacles);
-    res.json({ path });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
 
 // Function to test all algorithms and log paths (for testing/debugging purposes)
 function testAllAlgorithms(gridSize, start, end, obstacles) {
