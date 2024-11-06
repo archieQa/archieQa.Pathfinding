@@ -2,19 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "controllers/pathfindingController.js",
+      "src": "controllers/pathFindingController.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "controllers/pathfindingController.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "src": "/find-path",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "your-main-file.js",
       "headers": {
         "Access-Control-Allow-Origin": "https://archie-qa-pathfinding-fe.vercel.app",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+        "Access-Control-Allow-Methods": "POST,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
       }
     }
   ]

@@ -13,15 +13,18 @@ const port = 5000;
 // CORS configuration
 const corsOptions = {
   origin: "https://archie-qa-pathfinding-fe.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 
-app.options("*", cors(corsOptions));
+app.use(express.json());
+
+// Handle preflight requests
+app.options("/find-path", cors(corsOptions));
 
 // Endpoint to handle frontend requests for pathfinding
 app.post("/find-path", (req, res) => {
@@ -33,8 +36,6 @@ app.post("/find-path", (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-// Middleware to parse JSON request body
-app.use(express.json());
 
 // Function to execute a single algorithm based on the user's choice
 function findPath(algorithm, gridSize, start, end, obstacles) {
